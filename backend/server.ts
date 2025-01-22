@@ -13,10 +13,11 @@ let userData: Array<Record<string, string>> = [];
 
 const app = express();
 app.use(cors());
+app.use(express.json());
 
 app.post("/api/files", loadSingleFile, async (req, res) => {
   // 1. Extract file from request
-  const { file } = req.body;
+  const { file } = req;
   // 2. Validate that have the file
   if (!file) {
     res.status(400).json({ message: "Not send the file" });
