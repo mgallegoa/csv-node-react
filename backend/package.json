@@ -7,8 +7,7 @@
   "scripts": {
     "dev": "tsx watch ./server.ts",
     "build": "tsc",
-    "start": "PORT=3000 node ./build/server.js",
-    "lint": "eslint --fix .",
+    "start": "PORT=3000 node ./dist/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,24 +22,19 @@
   "author": "mgallegoa",
   "license": "ISC",
   "devDependencies": {
-    "@eslint/js": "^9.18.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.10.7",
-    "eslint": "^9.18.0",
-    "eslint-config-prettier": "^10.0.1",
-    "globals": "^15.14.0",
-    "prettier": "^3.4.2",
     "tslib": "^2.8.1",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.20.0"
+    "tsx": "^4.19.2"
   },
   "dependencies": {
     "convert-csv-to-json": "^2.50.0",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "typescript": "~5.6.2",
+    "typescript-eslint": "^8.18.2"
   }
 }

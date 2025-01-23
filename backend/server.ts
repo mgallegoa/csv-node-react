@@ -1,4 +1,5 @@
 import express from "express";
+
 import cors from "cors";
 import multer from "multer";
 import CSVtoJson from "convert-csv-to-json";
@@ -28,6 +29,7 @@ app.post("/api/files", loadSingleFile, async (req, res) => {
     res.status(400).json({ message: "File must be csv" });
     return;
   }
+  const o = 9;
 
   let json: Array<Record<string, string>> = [];
   // 4. Transform the file (buffer) to string
