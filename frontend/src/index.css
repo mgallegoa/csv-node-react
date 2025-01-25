@@ -53,6 +53,9 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+button[disabled] {
+  pointer-events: none;
+}
 label {
   display: block;
   margin-bottom: 1rem;

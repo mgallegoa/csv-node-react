@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import { uploadFile } from "./services/upload";
 
 const APP_STATUS = {
   IDLE: "idle", // start
@@ -11,7 +12,7 @@ const APP_STATUS = {
 
 type AppStatusType = (typeof APP_STATUS)[keyof typeof APP_STATUS];
 
-const BUTTON_TEXT = {
+const BUTTON_TEXT: Record<string, string> = {
   [APP_STATUS.READY_UPLOAD]: "Upload File",
   [APP_STATUS.UPLOADING]: "Uploading...",
 };
@@ -26,8 +27,15 @@ function App() {
       setAppStatus(APP_STATUS.READY_UPLOAD);
     }
   };
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log("Trace Manuel", file);
+    if (appStatus !== APP_STATUS.READY_UPLOAD || !file) {
+      return;
+    }
+    setAppStatus(APP_STATUS.UPLOADING);
+    const [error, data] = await uploadFile(file);
+    console.log(error, data);
   };
 
   const showUploadButton = APP_STATUS.READY_UPLOAD || APP_STATUS.UPLOADING;
@@ -45,7 +53,9 @@ function App() {
           />
         </label>
         {showUploadButton && (
-          <button type="button">{BUTTON_TEXT[appStatus]}</button>
+          <button type="submit" disabled={appStatus === APP_STATUS.UPLOADING}>
+            {BUTTON_TEXT[appStatus]}
+          </button>
         )}
       </form>
     </>
