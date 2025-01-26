@@ -3,6 +3,7 @@ import { Toaster, toast } from "sonner";
 import "./App.css";
 import { uploadFile } from "./services/upload";
 import { type Data } from "./types";
+import { Search } from "./steps/Search";
 
 const APP_STATUS = {
   IDLE: "idle", // start
@@ -55,6 +56,7 @@ function App() {
     appStatus === APP_STATUS.UPLOADING;
   const showUploadButton =
     appStatus === APP_STATUS.READY_UPLOAD || appStatus === APP_STATUS.UPLOADING;
+  const showSearch = appStatus === APP_STATUS.LOAD_FINISHED;
   return (
     <>
       <Toaster />
@@ -77,7 +79,7 @@ function App() {
           )}
         </form>
       )}
-      {appStatus === APP_STATUS.LOAD_FINISHED && <h2>File loaded</h2>}
+      {showSearch && <Search initialData={data} />}
     </>
   );
 }
