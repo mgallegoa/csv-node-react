@@ -34,10 +34,8 @@ app.post("/api/files", loadSingleFile, async (req, res) => {
   // 4. Transform the file (buffer) to string
   try {
     const rawCSV = Buffer.from(file.buffer).toString("utf8");
-    console.log(rawCSV);
     // 5. Transform the string to JSON
     json = CSVtoJson.fieldDelimiter(",").csvStringToJson(rawCSV);
-    console.log(json);
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error parsing the file" });
@@ -59,7 +57,6 @@ app.get("/api/users", async (req, res) => {
   }
 
   const search = q?.toString().toLowerCase();
-  console.log(search);
 
   // 3. Filter the data from the bd (or memory) with the query parameter
   const dataFiltered = userData.filter((row) => {
@@ -67,8 +64,9 @@ app.get("/api/users", async (req, res) => {
       value.toLowerCase().includes(search),
     );
   });
+
   // 4. Return status 200 with the filtered data
-  res.status(200).json({ data: [dataFiltered] });
+  res.status(200).json({ data: dataFiltered });
 });
 
 app.listen(port, () => {
