@@ -29,7 +29,6 @@ app.post("/api/files", loadSingleFile, async (req, res) => {
     res.status(400).json({ message: "File must be csv" });
     return;
   }
-  const o = 9;
 
   let json: Array<Record<string, string>> = [];
   // 4. Transform the file (buffer) to string
@@ -37,7 +36,7 @@ app.post("/api/files", loadSingleFile, async (req, res) => {
     const rawCSV = Buffer.from(file.buffer).toString("utf8");
     console.log(rawCSV);
     // 5. Transform the string to JSON
-    json = CSVtoJson.csvStringToJson(rawCSV);
+    json = CSVtoJson.fieldDelimiter(",").csvStringToJson(rawCSV);
     console.log(json);
   } catch (error) {
     console.log(error);
