@@ -1,13 +1,15 @@
 import { useState } from "react";
+import { Toaster, toast } from "sonner";
 import "./App.css";
 import { uploadFile } from "./services/upload";
+import { type Data } from "./types";
 
 const APP_STATUS = {
   IDLE: "idle", // start
   ERROR: "error", // in case of error
   READY_UPLOAD: "ready_upload",
   UPLOADING: "uploading",
-  READY_USAGE: "ready_usage",
+  LOAD_FINISHED: "load_finished",
 } as const;
 
 type AppStatusType = (typeof APP_STATUS)[keyof typeof APP_STATUS];
@@ -20,6 +22,8 @@ const BUTTON_TEXT: Record<string, string> = {
 function App() {
   const [appStatus, setAppStatus] = useState<AppStatusType>(APP_STATUS.IDLE);
   const [file, setFile] = useState<File | null>(null);
+  const [data, setData] = useState<Data | undefined>([]);
+
   const handleInputCSV = (event: React.ChangeEvent<HTMLInputElement>) => {
     const [file] = event.target.files ?? [];
     if (file) {
@@ -29,35 +33,51 @@ function App() {
   };
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Trace Manuel", file);
     if (appStatus !== APP_STATUS.READY_UPLOAD || !file) {
       return;
     }
     setAppStatus(APP_STATUS.UPLOADING);
-    const [error, data] = await uploadFile(file);
-    console.log(error, data);
+    const [error, newData] = await uploadFile(file);
+    if (error) {
+      setAppStatus(APP_STATUS.ERROR);
+      toast.error(error.message);
+      return;
+    }
+    setData(newData);
+
+    setAppStatus(APP_STATUS.LOAD_FINISHED);
+    toast.success("File uploaded succefully");
   };
 
-  const showUploadButton = APP_STATUS.READY_UPLOAD || APP_STATUS.UPLOADING;
+  const showFileInput =
+    appStatus === APP_STATUS.READY_UPLOAD ||
+    appStatus === APP_STATUS.IDLE ||
+    appStatus === APP_STATUS.UPLOADING;
+  const showUploadButton =
+    appStatus === APP_STATUS.READY_UPLOAD || appStatus === APP_STATUS.UPLOADING;
   return (
     <>
+      <Toaster />
       <h1>CSV challenge</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <input
-            onChange={handleInputCSV}
-            type="file"
-            name="file"
-            accept=".csv"
-            disabled={appStatus === APP_STATUS.UPLOADING}
-          />
-        </label>
-        {showUploadButton && (
-          <button type="submit" disabled={appStatus === APP_STATUS.UPLOADING}>
-            {BUTTON_TEXT[appStatus]}
-          </button>
-        )}
-      </form>
+      {showFileInput && (
+        <form onSubmit={handleSubmit}>
+          <label>
+            <input
+              onChange={handleInputCSV}
+              type="file"
+              name="file"
+              accept=".csv"
+              disabled={appStatus === APP_STATUS.UPLOADING}
+            />
+          </label>
+          {showUploadButton && (
+            <button type="submit" disabled={appStatus === APP_STATUS.UPLOADING}>
+              {BUTTON_TEXT[appStatus]}
+            </button>
+          )}
+        </form>
+      )}
+      {appStatus === APP_STATUS.LOAD_FINISHED && <h2>File loaded</h2>}
     </>
   );
 }
