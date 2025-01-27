@@ -6,6 +6,9 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "pnpm --filter '**' dev",
+    "dev:back": "pnpm --filter 'backend' dev",
+    "dev:front": "pnpm --filter 'frontend' dev",
     "lint": "eslint .",
     "lint:back": "eslint ./backend/",
     "lint:front": "eslint ./frontend/",
@@ -23,6 +26,7 @@
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.16",
     "globals": "^15.14.0",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "typescript-eslint": "^8.18.2"
   }
 }
