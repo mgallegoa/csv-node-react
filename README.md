@@ -9,6 +9,7 @@ This project uses packages like:
 3. Mono-repo to run the back and front projects just running "pnpm run dev"
 4. Express, cors, csv to json, convert csv to json.
 5. @vite/lates start setup, React, sonner (toast), useDebounceHook (debounce)
+6. Mono-repository using pnpm
 
 ## Run
 
