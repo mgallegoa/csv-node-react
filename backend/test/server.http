@@ -1,19 +1,21 @@
 
-@file=/media/manuel/Datos/mgallegoa/csv-node-react/data_inventory.csv
+###
+GET http://localhost:8081/
 
 ###
-GET http://localhost:3000/api/users?q=manuel
+GET http://localhost:8081/api/users?q=manuel
 
 ###
-# @file-to-variable CSV_FILE_VAR /media/manuel/Datos/mgallegoa/csv-node-react/data_inventory.csv
-POST http://localhost:3000/api/files HTTP/1.1
+# @file-to-variable CSV_FILE_VAR /home/manuel/mgallegoa/csv-node-react/data_inventory.csv
+POST http://localhost:8081/api/files HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary{{$timestamp}}
 
 ------WebKitFormBoundary{{$timestamp}}
 Content-Disposition: form-data; name="file"; filename="data_inventory.csv"
 Content-Type: text/csv
 
-{{CSV_FILE_VAR}}
+# {{CSV_FILE_VAR}}
+< /home/manuel/mgallegoa/csv-node-react/data_inventory.csv
 
 ------WebKitFormBoundary{{$timestamp}}
 Content-Disposition: form-data; name="x"

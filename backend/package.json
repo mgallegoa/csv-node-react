@@ -5,7 +5,7 @@
   "main": "server.ts",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch ./server.ts",
+    "dev": "PORT=3000 tsx watch ./server.ts",
     "debug": "PORT=3000 tsx --inspect-brk ./server.ts",
     "build": "tsc",
     "start": "PORT=3000 node ./dist/server.js",
